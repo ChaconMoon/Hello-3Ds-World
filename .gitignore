@@ -1,0 +1,21 @@
+# Directorios de compilacion
+build/
+dist/
+
+# Artefactos devkitARM / libctru
+*.o
+*.d
+*.elf
+*.3dsx
+*.smdh
+*.map
+*.lst
+*.t3x
+*.shbin
+*_shbin.h
+*_t3x.h
+*_bin.h
+
+# Archivos del sistema y del editor
+.DS_Store
+.vscode/
