@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
         /* Inicializa la interfaz de consola en la pantalla superior */
         consoleInit(GFX_TOP, NULL);
 
-        printf("\x1b[2;2HHola mundo, soy Carlos Chacon desde una New 3DS \x1b[4;2H(https://github.com/ChaconMoon/)\x1b[6;2H\x1b[4mPulsa el boton Start para salir");
+        printf("\x1b[2;2HHola mundo, soy Carlos Chacon desde una New 3DS \x1b[4;2H(https://github.com/ChaconMoon/Hello-3Ds-World)\x1b[6;2H\x1b[4mPulsa el boton Start para salir");
 
         // Main Loop
 

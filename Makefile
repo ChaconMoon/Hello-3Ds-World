@@ -41,6 +41,9 @@ GRAPHICS	:=	gfx
 GFXBUILD	:=	$(BUILD)
 #ROMFS		:=	romfs
 #GFXBUILD	:=	$(ROMFS)/gfx
+APP_TITLE	:=	Hello3DsWorldChaconMoon
+APP_DESCRIPTION :=	Mi primer Hello World en una 3ds
+APP_AUTHOR 	:=	ChaconMoon
 
 #---------------------------------------------------------------------------------
 # options for code generation
