@@ -1,89 +1,79 @@
-# Hello 3Ds World
+# Hello 3DS World
 
-Este proyecto es un Hello World personal con el que busco aprender lo basico de trabajar con el software de una 3Ds empezando por crear un Hello World y ayudar a otros a entenderlo.
+Un pequeño **Hello World para Nintendo 3DS**, creado para aprender los fundamentos del desarrollo homebrew con C, devkitARM y libctru.
 
-![Program Screenshot](.github/program_screenshot.png)
+<div style="display:flex; justify-content:center";>
+<img src=".github/program_screenshot.png" width="700px"/>
+</div>
 
-## Compilar el proyecto
+## ¿Qué incluye?
 
-### Estructura del proyecto
+- Inicialización de los servicios gráficos de la consola.
+- Texto en la pantalla superior mediante la consola de libctru.
+- Bucle principal sincronizado con el refresco vertical.
+- Lectura de botones y salida al pulsar `START`.
+- Generación de un paquete `.3dsx` para una Nintendo 3DS o un emulador compatible.
+
+## Requisitos
+
+La forma recomendada de compilar el proyecto es utilizar **Visual Studio Code** con el contenedor de desarrollo incluido. El contenedor proporciona las herramientas de devkitPro necesarias para compilar aplicaciones de Nintendo 3DS.
+
+También es posible instalar las herramientas manualmente:
+
+- [Contenedores de desarrollo de devkitPro](https://hub.docker.com/u/devkitpro)
+- [Extensión Dev Containers para Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+- [Instalación de devkitPro para Linux](https://github.com/devkitPro/pacman/releases/tag/v6.0.2)
+- [Guía de inicio para Windows](https://devkitpro.org/wiki/Getting_Started)
+
+## Empezar
+
+### 1. Clonar el repositorio
 
 ```bash
-.
-├── .devcontainer # Carpeta que contiene la configuración de los contenedores de desarrollo.
-│   └── devcontainer.json # Configuración del contenedor de desarrollo.
-├── icon.png # Icono  de la aplicación
-├── Makefile # El Makefile, esta modificado para empaquetar la aplicación y dejarla lista para subirla a la 3DS
-├── README.md # Este documento
-├── source # Carpeta que contiene el código del proyecto, no puede renombrarse.
-│   └── main.c # Modulo principal del proyecto, y el único
-└── .vscode # Carpeta con la configuración de visual Studio Code.
-    └── c_cpp_properties.json # Carpeta que contiene la configuración del proyecto, te la dejo por si la necesitas.
+git clone https://github.com/ChaconMoon/Hello-3Ds-World.git
+cd Hello-3Ds-World
 ```
 
-### Clona este repositorio
+### 2. Abrir el contenedor de desarrollo
 
-```bash
-git clone https://github.com/ChaconMoon/Hello-3Ds-World
-```
-
-### El contendor de desarrollo (método recomendado por los desarrolladores)
-
-Este proyecto esta pensado para desarrollarse desde **Visual Studio Code** usando un contenedor de desarrollo.
-*Un contenedor de desarrollo nos permite tener un entorno de trabajo dentro de un contenedor de Docker y trabajar dentro de él*
-[Los kits de desarrollo de Devkitpro se distribuyen como un contenedor de Docker que ofrecen todas las utilidades necesarias para desarrollar](https://hub.docker.com/u/devkitpro), de hecho en su GitHub dice que es el metodo de desarrollo necesario.
-
-Para trabajar con contenedores de desarrollo en necesario usar [la extensión Dev Containers de Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers), puedes instalarla con el siguiente comando.
-
-Puedes instalarla con este comando si tienes code en el PATH.
+Instala la extensión si todavía no la tienes:
 
 ```bash
 code --install-extension ms-vscode-remote.remote-containers
 ```
 
-Abre el repositorio en Visual Studio Code, habre la terminal de comandos con `Ctrl+Shift+P` y pon el siguiente comando.
+Abre el proyecto en Visual Studio Code y ejecuta el comando `Dev Containers: Reopen in Container` desde la paleta de comandos (`Ctrl+Shift+P`). Visual Studio Code utilizará la configuración de `.devcontainer/devcontainer.json` y preparará el entorno de compilación.
 
-```vscode
-> Dev Containers: Reopen in Container
-```
+### 3. Compilar
 
-Visual Studio cargará el contenedor según la configuración especificado en el `devcontainer.json` y gracias al `c_cpp_properties.json` tendras el intel funcionando
+Desde la terminal del contenedor, ejecuta:
 
-### Instalación manual
-
-Si deseas instalarlo en Linux manualmente puedes usar [su instalación basada en pacman](https://github.com/devkitPro/pacman/releases/tag/v6.0.2)
-
-En el caso de los dispositivos Windows puedes usar su instalación desde [su Getting Started](https://devkitpro.org/wiki/Getting_Started)
-
-> [!NOTE]
->Tienes que configurar manualmente el intel según tu sistema, puedes buscar como hacerlo según tu sistema operativo en el Getting Started 
-
-
-### Crear el ejecutable.
-
-Lanza el Makefile.
-
-```
+```bash
 make
 ```
 
-El paquete se exporta en `./dist/`
+El resultado se genera dentro de `dist/Hello3DsWorldChaconMoon/` e incluye el ejecutable `.3dsx`, listo para copiarlo a una Nintendo 3DS o abrirlo en un emulador como [Azahar](https://github.com/azahar-emu/azahar).
 
-esto exportará el ejecutable `.3dsx` listo para usarse en una consola 3DS o en un emulador como [Azahar](https://github.com/azahar-emu/azahar)
+Para eliminar los archivos generados:
 
-puedes limpiar la compilación con:
-
-```
+```bash
 make clean
 ```
 
-## Explicación del proyecto
+## Cómo funciona
 
-Este software se ha creado usando las librerias éstandar de input / output de C, la librería de cadenas de texto y la libería de devkitpro de 3DS.
+El programa utiliza la biblioteca estándar de C y la biblioteca [libctru](https://github.com/devkitPro/libctru) para acceder a los servicios de la Nintendo 3DS:
 
-Aqui tienes el software comentando.
+1. `gfxInitDefault()` inicializa los gráficos.
+2. `consoleInit()` prepara la consola de texto en la pantalla superior.
+3. `aptMainLoop()` mantiene la aplicación activa.
+4. `gspWaitForVBlank()` y `gfxSwapBuffers()` sincronizan y muestran cada fotograma.
+5. `hidScanInput()` y `hidKeysDown()` detectan la pulsación de `START`.
+6. `gfxExit()` libera los recursos gráficos antes de cerrar la aplicación.
 
-```C
+El código principal se encuentra en [`source/main.c`](source/main.c):
+
+```c
 /* Libería estándar de Input / Output */
 #include <stdio.h>
 
@@ -135,4 +125,16 @@ int main(int argc, char *argv[])
         gfxExit();
         return 0;
 }
+```
+
+## Estructura del proyecto
+
+```text
+.
+├── .devcontainer/       # Configuración del contenedor de desarrollo.
+├── .vscode/             # Configuración del editor.
+├── source/main.c        # Código principal de la aplicación.
+├── icon.png             # Icono incluido en el paquete de la aplicación.
+├── Makefile             # Reglas de compilación y empaquetado.
+└── README.md            # Documentación del proyecto.
 ```
