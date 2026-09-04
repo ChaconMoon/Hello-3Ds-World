@@ -2,9 +2,9 @@
 
 Un pequeño **Hello World para Nintendo 3DS**, creado para aprender los fundamentos del desarrollo homebrew con C, devkitARM y libctru.
 
-<div style="display:flex; justify-content:center";>
-<img src=".github/program_screenshot.png" width="700px"/>
-</div>
+<p align="center">
+        <img src=".github/program_screenshot.png" width="700px" />
+</p>
 
 ## ¿Qué incluye?
 
